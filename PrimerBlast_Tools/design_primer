@@ -1,0 +1,26 @@
+import primer3
+from pandas import DataFrame
+
+def design_primer(seq_args,global_args,out_address):
+    primer3_result = primer3.bindings.designPrimers(seq_args, global_args)
+    print('Primer designed...start changing format')
+    primer3_result_table_dict = {}
+    for i in range(primer3_result["PRIMER_PAIR_NUM_RETURNED"]):
+        primer_id = str(i)
+        for key in primer3_result:
+            if primer_id in key:
+                info_tag = key.replace("_" + primer_id, "")
+                try:
+                    primer3_result_table_dict[info_tag]
+                except:
+                    primer3_result_table_dict[info_tag] = []
+                finally:
+                    primer3_result_table_dict[info_tag].append(primer3_result[key])
+    index = []
+    for i in range(primer3_result["PRIMER_PAIR_NUM_RETURNED"]):
+        index.append("PRIMER_PAIR_" + str(i))
+    primer3_result_df = DataFrame(primer3_result_table_dict, index=index)
+    primer3_result_df = primer3_result_df.T
+    primer3_result_df.to_csv(out_address)
+    print(primer3_result_df)
+    return primer3_result_df
