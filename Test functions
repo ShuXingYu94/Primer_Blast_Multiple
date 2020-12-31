@@ -1,0 +1,77 @@
+from Bio.Blast.Applications import NcbiblastnCommandline
+from Bio.Blast import NCBIXML
+import pandas as pd
+import primer3
+
+def get_target(name): # in progress
+    ref_seq=''
+    return ref_seq
+
+def check_primer(seq,ref):
+    print('Tm : ', primer3.calcTm(seq), '\n')
+    print('Hairpin : ', primer3.calcHairpin(seq), '\n')
+    print('Homo-dimer : ', primer3.calcHomodimer(seq), '\n')
+    print('Hetero-dimer : ', primer3.calcHeterodimer(seq,ref), '\n')
+    print('''3'_EndStability: ''', primer3.bindings.calcEndStability(seq,ref), '\n')
+
+def design_primer(seq_args,global_args,out_address):
+    primer3_result = primer3.bindings.designPrimers(seq_args, global_args)
+    print('Primer designed...start changing format')
+    primer3_result_table_dict = {}
+    for i in range(primer3_result["PRIMER_PAIR_NUM_RETURNED"]):
+        primer_id = str(i)
+        for key in primer3_result:
+            if primer_id in key:
+                info_tag = key.replace("_" + primer_id, "")
+                try:
+                    primer3_result_table_dict[info_tag]
+                except:
+                    primer3_result_table_dict[info_tag] = []
+                finally:
+                    primer3_result_table_dict[info_tag].append(primer3_result[key])
+    index = []
+    for i in range(primer3_result["PRIMER_PAIR_NUM_RETURNED"]):
+        index.append("PRIMER_PAIR_" + str(i))
+    primer3_result_df = pd.DataFrame(primer3_result_table_dict, index=index)
+    primer3_result_df = primer3_result_df.T
+    primer3_result_df.to_csv(out_address)
+    print(primer3_result_df)
+    return primer3_result_df
+
+def extract_pairs(out_address):
+    primer3_result_df = pd.read_csv(out_address, header=0, index_col=0)
+    left_primer = list(primer3_result_df.loc['PRIMER_LEFT_SEQUENCE'].values)
+    right_primer = list(primer3_result_df.loc['PRIMER_RIGHT_SEQUENCE'].values)
+    primer_list = []
+    while left_primer:
+        f = left_primer.pop(0)
+        r = right_primer.pop(0)
+        primer_list.append([f, r])
+    return primer_list
+
+def blast_primer(query_address,db_address,out_address1,evalue=0.0001,identity=18):
+    blastn_cline = NcbiblastnCommandline(query=query_address,db=db_address,evalue=0.0001, outfmt=5,out=out_address1)
+    stout,stderr=blastn_cline()
+    result_handle = open(out_address1)
+    blast_record = NCBIXML.read(result_handle)
+    E_VALUE_THRESH = evalue  # set E_value or other parameter and judge if exist
+    Identities = identity  # set identity for alignments,for primer design:length of primer-2 is recommended
+    count = 0 # count number of blast hits
+    name_list = []
+    for alignment in blast_record.alignments:
+        for hsp in alignment.hsps:
+            if hsp.expect < E_VALUE_THRESH and hsp.identities > Identities:
+                count += 1
+                name_list.append(alignment.title)
+                # print('****Alignment****')
+                # print('sequence:', alignment.title)
+                # print('length:', alignment.length)
+                # print('identity:', hsp.identities)
+                # print('e value:', hsp.expect)
+                # print(hsp.query[0:75] + '...')
+                # print(hsp.match[0:75] + '...')
+                # print(hsp.sbjct[0:75] + '...')
+    return count,name_list
+
+def output():
+    pass
