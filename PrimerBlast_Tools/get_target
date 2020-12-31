@@ -1,0 +1,32 @@
+import os
+from Bio import SeqIO
+from Bio import Entrez
+
+# Sample for parameters input
+# email='sample@email.com'
+# gene_id = {   
+#     'db': 'nucleotide',
+#     'id': '830878',
+#     'rettype': 'gb',
+#     'retmode': 'text'
+# }
+
+def get_target(email, gene_id):
+    Entrez.email = email
+    filename = gene_id['id']
+    if not os.path.isfile(filename):
+        print('Data not found in given directory, downloading...')
+        net_handle = Entrez.efetch(db=gene_id['db'], id=gene_id['id'], rettype=gene_id['rettype'],
+                                   retmode=gene_id['retmode'])
+        out_handle = open(filename, "w")
+        out_handle.write(net_handle.read())
+        out_handle.close()
+        net_handle.close()
+        print(filename + ' Data Saved.')
+    else:
+        print('Data found in given directory.')
+    print('Parsing...')
+    record = SeqIO.read(filename, 'gb')
+    seq = str(record.seq)
+    # print(len(target_seq), target_seq)
+    return record, seq
