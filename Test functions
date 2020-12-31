@@ -2,10 +2,29 @@ from Bio.Blast.Applications import NcbiblastnCommandline
 from Bio.Blast import NCBIXML
 import pandas as pd
 import primer3
+import os
+from Bio import SeqIO
+from Bio import Entrez
 
-def get_target(name): # in progress
-    ref_seq=''
-    return ref_seq
+
+def get_target(email, gene_id):
+    Entrez.email = email
+    filename = gene_id['id']
+    if not os.path.isfile(filename):
+        net_handle = Entrez.efetch(db=gene_id['db'], id=gene_id['id'], rettype=gene_id['rettype'],
+                                   retmode=gene_id['retmode'])
+        out_handle = open(filename, "w")
+        out_handle.write(net_handle.read())
+        out_handle.close()
+        net_handle.close()
+        print(filename + ' Data Saved.')
+    else:
+        print('Data already saved.')
+    print('Parsing...')
+    record = SeqIO.read(filename, 'gb')
+    seq = str(record.seq)
+    # print(len(target_seq), target_seq)
+    return record, seq
 
 def check_primer(seq,ref):
     print('Tm : ', primer3.calcTm(seq), '\n')
@@ -73,5 +92,5 @@ def blast_primer(query_address,db_address,out_address1,evalue=0.0001,identity=18
                 # print(hsp.sbjct[0:75] + '...')
     return count,name_list
 
-def output():
+def output(): # In progress
     pass
