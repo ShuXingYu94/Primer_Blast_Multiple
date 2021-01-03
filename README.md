@@ -30,7 +30,7 @@ To carry out *NCBI Primer-Blast like* function locally and with not-yet publishe
 
 2. gene id, database (to download sequence from NCBI genbank)
 
->[NCBI efetch database](https://www.ncbi.nlm.nih.gov/books/NBK25497/table/chapter2.T._entrez_unique_identifiers_ui/?report=objectonly)
+    * >[NCBI efetch database](https://www.ncbi.nlm.nih.gov/books/NBK25497/table/chapter2.T._entrez_unique_identifiers_ui/?report=objectonly)
 
 3. output address, database address (to save result)
 
