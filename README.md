@@ -2,7 +2,9 @@
 
 **Aim:**
 
-To carry out *NCBI Primer-Blast like* function locally and with not-yet published genome database, and maybe for further use in the future.
+To carry out *NCBI Primer-Blast like* function locally with unpublished genome database, and maybe for further use in the future.
+Current plans are:
+
 
 **Required environment:**
 
