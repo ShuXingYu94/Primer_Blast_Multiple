@@ -1,5 +1,6 @@
 from pandas import read_csv
 
+
 def extract_pairs(out_address):
     primer3_result_df = read_csv(out_address, header=0, index_col=0)
     left_primer = list(primer3_result_df.loc['PRIMER_LEFT_SEQUENCE'].values)
