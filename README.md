@@ -6,7 +6,7 @@ To carry out *[NCBI Primer-Blast](https://www.ncbi.nlm.nih.gov/tools/primer-blas
 
 **Current plans:**
 
-- [x] Local blast with NCBI Blast+ through Biopython.    (Accomplished)
+- [x] Local blast with NCBI Blast+ through Biopython. 
 - [x] Regular design of PCR primers and locally blast for specificity.  
 ↘︎ Regardless of the position of the primers
 - [ ] Design primers for qPCR in case of needing Exon junction span or Intron inclusion.
