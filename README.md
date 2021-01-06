@@ -6,13 +6,13 @@ To carry out *[NCBI Primer-Blast](https://www.ncbi.nlm.nih.gov/tools/primer-blas
 
 **Current plans:**
 
-0. Local blast with NCBI Blast+ through Biopython.
-1. Regular design of PCR primers and locally blast for specificity.  
+- [x] Local blast with NCBI Blast+ through Biopython.    (Accomplished)
+- [x] Regular design of PCR primers and locally blast for specificity.  
 ↘︎ Regardless of the position of the primers
-2. Design primers for qPCR in case of needing Exon junction span or Intron inclusion.
-3. Add a visualize function to visualize every primer pair's position on the given gene sequence with each use.
-4. While dealing with species like *B. napus*(2n = 4x = 38, AACC), each gene could have multiple copies(or homologous genes). For initial expression analysis, input multiple gene data and get consensus primers.
-5. For detecting SNP of the same gene of different cultivars(same species), design Allele-specific PCR primers.
+- [ ] Design primers for qPCR in case of needing Exon junction span or Intron inclusion.
+- [ ] Add a visualize function to visualize every primer pair's position on the given gene sequence with each use.
+- [ ] While dealing with species like *B. napus*(2n = 4x = 38, AACC), each gene could have multiple copies(or homologous genes). For initial expression analysis, input multiple gene data and get consensus primers.
+- [ ] For detecting SNP of the same gene of different cultivars(same species), design Allele-specific PCR primers.
 
 **Required environment:**
 
