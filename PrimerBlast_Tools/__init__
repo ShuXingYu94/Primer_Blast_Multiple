@@ -1,6 +1,1 @@
-from .get_target import *
-from .check_primer import *
-from .design_primer import *
-from .blast_primer import *
-from .extract_pairs import *
-from .output import *
+__all__ = ['Primer_Blast_Fuction.py']
