@@ -1,8 +1,0 @@
-import primer3
-
-def check_primer(seq:str,ref:str):
-    print('Tm : ', primer3.calcTm(seq), '\n')
-    print('Hairpin : ', primer3.calcHairpin(seq), '\n')
-    print('Homo-dimer : ', primer3.calcHomodimer(seq), '\n')
-    print('Hetero-dimer : ', primer3.calcHeterodimer(seq,ref), '\n')
-    print('''3'_EndStability: ''', primer3.bindings.calcEndStability(seq,ref), '\n')
