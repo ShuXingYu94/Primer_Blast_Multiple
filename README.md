@@ -1,4 +1,4 @@
-# Primer_Blast_like
+# Primer_Blast_Multiple
 
 **Aim:**
 
